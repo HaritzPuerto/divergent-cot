@@ -25,6 +25,8 @@
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -192,8 +194,40 @@
       <!-- Method -->
       <div class="columns is-centered">
         <div class="column is-full-width">
-          <h2 class="title is-3">Diverse Chain of Thought</h2>
-            todo
+          <h2 class="title is-3">Diverse Chain of Thought (DCoT)</h2>
+          <div class="content has-text-justified">
+            <p>
+              We instruction-tune LLMs to generate a sequence of divergent CoTs before selecting the final answer in a single inference step at inference time. To this end, we devise a DCoT instruction template, where we introduce a set of commands (in brackets) to request the number of CoTs to generate:
+              </p>
+            <!-- create centered text block -->
+            <div class="content has-text-centered">
+              <p>
+                <b>Prompt:</b>[Question] Question [Options] Options [Number of answers] k</br>
+                <b>Response:</b>[Answer 1] CoT_1 [Answer 2] ... [Answer k] CoT_k [Final answer] answer
+              </p>
+            </div>
+          </div> 
+
+          <h2 class="title is-3">Chain of Thought (CoT) Baseline</h2>
+          <div class="content has-text-justified">
+            <p>
+              Similarly, to establish a comparable baseline, we instruction-tune the same LLMs using the more traditional CoT format.
+              To ensure a fair comparison, we use the same reasoning chains for training.
+              As shown in the figure below, each data point is composed of a question and a CoT, and a question may appear in more than one data point but with a different CoT. 
+              In this way, the model leverages CoT diversity at training time but, unlike in <b>DCoT</b>, it does not do so at inference time.
+            </p>
+          </div> 
+
+          <!-- Add image of the method -->
+          <div class="columns is-centered has-text-centered">
+            <div class="column is-four-fifths">
+              <h2 class="title is-3"></h2>
+              <div class="">
+                <img src="./static/images/method.png" class="" alt="Method" />
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
       <!--/ Method -->
@@ -202,7 +236,13 @@
       <div class="columns is-centered">
         <div class="column is-full-width">
           <h2 class="title is-3">CoT Data Generation</h2>
-            todo
+          <div class="content has-text-justified">
+            <p>
+              We use GPT 3.5 turbo in the zero-shot setting with multiple triggers, such as <em>Let's think step by step</em> to generate CoTs.
+              For each question, we select four random CoT triggers.
+              We limit the number of CoTs to four to ensure that the targets fit the context window of the LLMs.
+            </p>
+          </div>
         </div>
       </div>
       <!--/ Data Generation -->
@@ -213,7 +253,42 @@
           <h2 class="title is-3">Results</h2>
           <div class="content has-text-justified">
             <p>
-              todo
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>Method</th>
+                    <th>Phi 1.5 (1.3B)</th>
+                    <th>Phi 2 (2.7B)</th>
+                    <th>LLaMA 7B</th>
+                    <th>LLaMA 13B</th>
+                    <th>LLaMA 70B</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><b>DCoT</b></td>
+                    <td>49.39</td>
+                    <td>62.60</td>
+                    <td>60.80</td>
+                    <td>66.18</td>
+                    <td>68.63</td>
+                  </tr>
+                  <tr>
+                    <td>CoT</td>
+                    <td>47.20</td>
+                    <td>60.85</td>
+                    <td>58.97</td>
+                    <td>64.39</td>
+                    <td>66.96</td>
+                  </tr>
+                </tbody>
+              </table>
+              
+            </p>
+
+            <p>
+              The table shows the average results of DCoT and CoT across 8 QA reasoning tasks.
+              We observe that DCoT achieves consistent and significant performance gains compared to CoT across all LLM families and sizes.
             </p>
           </div>
         </div>
@@ -316,6 +391,10 @@
       </div>
     </div>
   </footer>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
 
