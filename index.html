@@ -27,6 +27,42 @@
   <script src="./static/js/index.js"></script>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <style>
+    .table td, .table th {
+        text-align: center;
+    }
+    .table td.red-1 {
+        background-color: #f8d7da;
+    }
+    .table td.red-2 {
+        background-color: #f5b7b1;
+    }
+    .table td.red-3 {
+        background-color: #f1948a;
+    }
+    .table td.red-4 {
+        background-color: #ec7063;
+    }
+    .table td.red-5 {
+        background-color: #e74c3c;
+    }
+    .table td.green-1 {
+        background-color: #d4edda;
+    }
+    .table td.green-2 {
+        background-color: #a9dfbf;
+    }
+    .table td.green-3 {
+        background-color: #7dcea0;
+    }
+    .table td.green-4 {
+        background-color: #52be80;
+    }
+    .table td.green-5 {
+        background-color: #27ae60;
+    }
+</style>
 </head>
 
 <body>
@@ -192,9 +228,19 @@
   <section class="section">
     <div class="container is-max-desktop">
       <!-- Method -->
+
       <div class="columns is-centered">
         <div class="column is-full-width">
-          <h2 class="title is-3">Diverse Chain of Thought (DCoT)</h2>
+          <h2 class="title is-3">Methods</h2>
+          <div class="content has-text-centered">
+            <img src="./static/images/method.png" class="" alt="Method" />
+          </div>
+        </div>
+      </div>
+
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-4">Diverse Chain of Thought (DCoT)</h2>
           <div class="content has-text-justified">
             <p>
               We instruction-tune LLMs to generate a sequence of divergent CoTs before selecting the final answer in a single inference step at inference time. To this end, we devise a DCoT instruction template, where we introduce a set of commands (in brackets) to request the number of CoTs to generate:
@@ -208,25 +254,15 @@
             </div>
           </div> 
 
-          <h2 class="title is-3">Chain of Thought (CoT) Baseline</h2>
+          <h2 class="title is-4">Chain of Thought (CoT) Baseline</h2>
           <div class="content has-text-justified">
             <p>
               Similarly, to establish a comparable baseline, we instruction-tune the same LLMs using the more traditional CoT format.
               To ensure a fair comparison, we use the same reasoning chains for training.
-              As shown in the figure below, each data point is composed of a question and a CoT, and a question may appear in more than one data point but with a different CoT. 
+              As shown in the figure above, each data point is composed of a question and a CoT, and a question may appear in more than one data point but with a different CoT. 
               In this way, the model leverages CoT diversity at training time but, unlike in <b>DCoT</b>, it does not do so at inference time.
             </p>
-          </div> 
-
-          <!-- Add image of the method -->
-          <div class="columns is-centered has-text-centered">
-            <div class="column is-four-fifths">
-              <h2 class="title is-3"></h2>
-              <div class="">
-                <img src="./static/images/method.png" class="" alt="Method" />
-              </div>
-            </div>
-          </div>
+          </div>           
 
         </div>
       </div>
@@ -290,6 +326,55 @@
               The table shows the average results of DCoT and CoT across 8 QA reasoning tasks.
               We observe that DCoT achieves consistent and significant performance gains compared to CoT across all LLM families and sizes.
             </p>
+
+            <p>The datasets are:
+              <table><thead>
+                <tr>
+                  <th>Dataset</th>
+                  <th>Reasoning Type</th>
+                </tr></thead>
+              <tbody>
+                <tr>
+                  <td>ARC</td>
+                  <td>High-School Science</td>
+                </tr>
+                <tr>
+                  <td>BGQA</td>
+                  <td>Logic</td>
+                </tr>
+                <tr>
+                  <td>CoinFlip</td>
+                  <td>State-tracking</td>
+                </tr>
+                <tr>
+                  <td>ConditionalQA</td>
+                  <td>Conditional</td>
+                </tr>
+                <tr>
+                  <td>GSM8K</td>
+                  <td>Math</td>
+                </tr>
+                <tr>
+                  <td>HotpotQA</td>
+                  <td>Explicit multli-hop</td>
+                </tr>
+                <tr>
+                  <td>LCC</td>
+                  <td>Symbolic</td>
+                </tr>
+                <tr>
+                  <td>Quartz</td>
+                  <td>Qualitative relationships</td>
+                </tr>
+                <tr>
+                  <td>StrategyQA</td>
+                  <td>Implicit multi-hop</td>
+                </tr>
+              </tbody>
+              </table>
+
+
+            </p>
           </div>
         </div>
       </div>
@@ -297,53 +382,103 @@
       <!--/ Self-Correction -->
       <div class="columns is-centered">
         <div class="column is-full-width">
-          <h2 class="title is-3">Self-Correction</h2>
+          <h2 class="title is-3">Self-Correction (DCoT@2 - DCoT@1)</h2>
+          <p>
+            The table below shows the performance gain by genrating 2 CoTs (i.e, DCoT@2 - DCoT@1).
+            We observe performance gains by simply generating a second CoT in over 62% of cases (i.e., 25 out of 40 LLM x Dataset) and larger than 0.5 for more than half of the datasets for Phi 1.5, Phi2, LLaMA2 13B, and 70B.
+          </p>
           <div class="content has-text-justified">
             <p>
-              todo
+              <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="thead">
+                        <tr>
+                            <th>LLM</th>
+                            <th>ARC</th>
+                            <th>BGQA</th>
+                            <th>CQA</th>
+                            <th>GSM8K</th>
+                            <th>HQA</th>
+                            <th>LLC</th>
+                            <th>Quartz</th>
+                            <th>StrQA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Phi 1.5</td>
+                            <td class="green-1">1.26</td>
+                            <td class="green-2">2.1</td>
+                            <td class="green-1">0.1</td>
+                            <td class="green-3">3</td>
+                            <td class="green-1">0.83</td>
+                            <td class="red-5">-14</td>
+                            <td class="green-3">3.38</td>
+                            <td class="green-1">1.11</td>
+                        </tr>
+                        <tr>
+                            <td>Phi 2</td>
+                            <td class="red-3">-3.56</td>
+                            <td class="red-2">-2.38</td>
+                            <td class="green-1">0.95</td>
+                            <td class="green-1">0.8</td>
+                            <td class="green-1">1.06</td>
+                            <td class="green-5">14</td>
+                            <td class="green-2">1.55</td>
+                            <td class="red-1">-0.85</td>
+                        </tr>
+                        <tr>
+                            <td>LLama2 7B</td>
+                            <td class="green-1">1.28</td>
+                            <td class="red-1">-0.99</td>
+                            <td class="red-1">-0.56</td>
+                            <td class="green-4">4</td>
+                            <td class="red-1">-0.01</td>
+                            <td class="green-4">6</td>
+                            <td class="red-1">-1.04</td>
+                            <td class="green-1">0.25</td>
+                        </tr>
+                        <tr>
+                            <td>LLama2 13B</td>
+                            <td class="green-4">4.15</td>
+                            <td class="green-1">0.91</td>
+                            <td class="red-1">-1.02</td>
+                            <td class="green-3">3</td>
+                            <td class="green-1">2.02</td>
+                            <td class="green-5">12</td>
+                            <td class="green-1">0.77</td>
+                            <td class="red-2">-2.03</td>
+                        </tr>
+                        <tr>
+                            <td>LLama2 70B</td>
+                            <td class="green-3">3.24</td>
+                            <td class="green-2">1.38</td>
+                            <td class="green-3">3.68</td>
+                            <td class="green-5">10</td>
+                            <td class="green-1">0</td>
+                            <td class="green-4">4</td>
+                            <td class="red-1">-1</td>
+                            <td class="red-4">-4.07</td>
+                        </tr>
+                    </tbody>
+                </table>
+              </div>
+                
             </p>
 
-            <p>Here some examples will come</p>
+            
+            <p>
+              These results indicate that DCoT tuning enables models to self-correct. <br>
+              It is important to note that our training data includes only reasoning chains that lead to the correct answer, never incorrect ones. This suggests that the ability to self-correct can be enabled in LLMs without explicitly training for it. <br>
+              We argue that this self-correct ability stem from the model's attempt to generate subsequent correct CoTs. In other words, the model may generate a first wrong CoT without knowing it, but it generates a second CoT that is correct and, therefore, as a side-effect, corrects the first one.
+            </p>
           </div>
         </div>
       </div>
 
 
 
-      <!-- Concurrent Work. -->
-      <div class="columns is-centered">
-        <div class="column is-full-width">
-          <h2 class="title is-3">Related Links</h2>
-
-          <div class="content has-text-justified">
-            <p>
-              There's a lot of excellent work that was introduced around the same time as ours.
-            </p>
-            <p>
-              <a href="https://arxiv.org/abs/2104.09125">Progressive Encoding for Neural Optimization</a> introduces an
-              idea similar to our windowed position encoding for coarse-to-fine optimization.
-            </p>
-            <p>
-              <a href="https://www.albertpumarola.com/research/D-NeRF/index.html">D-NeRF</a> and <a
-                href="https://gvv.mpi-inf.mpg.de/projects/nonrigid_nerf/">NR-NeRF</a>
-              both use deformation fields to model non-rigid scenes.
-            </p>
-            <p>
-              Some works model videos with a NeRF by directly modulating the density, such as <a
-                href="https://video-nerf.github.io/">Video-NeRF</a>, <a
-                href="https://www.cs.cornell.edu/~zl548/NSFF/">NSFF</a>, and <a
-                href="https://neural-3d-video.github.io/">DyNeRF</a>
-            </p>
-            <p>
-              There are probably many more by the time you are reading this. Check out <a
-                href="https://dellaert.github.io/NeRF/">Frank Dellart's survey on recent NeRF papers</a>, and <a
-                href="https://github.com/yenchenlin/awesome-NeRF">Yen-Chen Lin's curated list of NeRF papers</a>.
-            </p>
-          </div>
-        </div>
-      </div>
-      <!--/ Concurrent Work. -->
-
+     
     </div>
   </section>
 
@@ -351,11 +486,11 @@
   <section class="section" id="BibTeX">
     <div class="container is-max-desktop content">
       <h2 class="title">BibTeX</h2>
-      <pre><code>@article{park2021nerfies,
-  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
-  title     = {Nerfies: Deformable Neural Radiance Fields},
-  journal   = {ICCV},
-  year      = {2021},
+      <pre><code>@article{...,
+  author    = {...},
+  title     = {...},
+  journal   = {...},
+  year      = {2024},
 }</code></pre>
     </div>
   </section>
@@ -367,25 +502,19 @@
         <a class="icon-link" href="./static/videos/nerfies_paper.pdf">
           <i class="fas fa-file-pdf"></i>
         </a>
-        <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+        <a class="icon-link" href="https://github.com/HaritzPuerto/DCoT" class="external-link" disabled>
           <i class="fab fa-github"></i>
         </a>
       </div>
       <div class="columns is-centered">
         <div class="column is-8">
           <div class="content">
-            <p>
-              This website is licensed under a <a rel="license"
+            <p>This website is based on <a href="https://nerfies.github.io">Nerfies</a>
+              and licensed under a <a rel="license"
                 href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
                 Commons Attribution-ShareAlike 4.0 International License</a>.
             </p>
-            <p>
-              This means you are free to borrow the <a href="https://github.com/nerfies/nerfies.github.io">source
-                code</a> of this website,
-              we just ask that you link back to this page in the footer.
-              Please remember to remove the analytics code included in the header of the website which
-              you do not want on your website.
-            </p>
+            
           </div>
         </div>
       </div>
