@@ -29,40 +29,51 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
   <style>
-    .table td, .table th {
-        text-align: center;
+    .table td,
+    .table th {
+      text-align: center;
     }
+
     .table td.red-1 {
-        background-color: #f8d7da;
+      background-color: #f8d7da;
     }
+
     .table td.red-2 {
-        background-color: #f5b7b1;
+      background-color: #f5b7b1;
     }
+
     .table td.red-3 {
-        background-color: #f1948a;
+      background-color: #f1948a;
     }
+
     .table td.red-4 {
-        background-color: #ec7063;
+      background-color: #ec7063;
     }
+
     .table td.red-5 {
-        background-color: #e74c3c;
+      background-color: #e74c3c;
     }
+
     .table td.green-1 {
-        background-color: #d4edda;
+      background-color: #d4edda;
     }
+
     .table td.green-2 {
-        background-color: #a9dfbf;
+      background-color: #a9dfbf;
     }
+
     .table td.green-3 {
-        background-color: #7dcea0;
+      background-color: #7dcea0;
     }
+
     .table td.green-4 {
-        background-color: #52be80;
+      background-color: #52be80;
     }
+
     .table td.green-5 {
-        background-color: #27ae60;
+      background-color: #27ae60;
     }
-</style>
+  </style>
 </head>
 
 <body>
@@ -88,6 +99,9 @@
             More Research
           </a>
           <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://haritzpuerto.github.io/scaling-mia/">
+              Scaling Membership Inference Attacks
+            </a>
             <a class="navbar-item" href="https://haritzpuerto.github.io/code-prompting/">
               Code Prompting
             </a>
@@ -128,7 +142,8 @@
 
             <div class="is-size-5 publication-authors">
               <span class="author-block"><sup>1</sup>UKP Lab, Technical University of Darmstadt, Hessian.AI</span>
-              <span class="author-block"><sup>2</sup>Dept. of ECE & Ingenuity Labs Research Institute, Queen's University</span>
+              <span class="author-block"><sup>2</sup>Dept. of ECE & Ingenuity Labs Research Institute, Queen's
+                University</span>
               <span class="author-block"><sup>3</sup>University of Bath</span>
             </div>
 
@@ -196,7 +211,9 @@
       <!-- Abstract. -->
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
-          <b>TLDR:</b> Divergent Chain of Thought (DCoT) consists of requiring models to generate multiple CoTs before choosing an answer. Adding DCoT data to instruction tuning allows models to improve performance through self-correction.
+          <b>TLDR:</b> Divergent Chain of Thought (DCoT) consists of requiring models to generate multiple CoTs before
+          choosing an answer. Adding DCoT data to instruction tuning allows models to improve performance through
+          self-correction.
         </div>
       </div>
       <div class="columns is-centered has-text-centered">
@@ -258,8 +275,10 @@
           <h2 class="title is-4">Diverse Chain of Thought (DCoT)</h2>
           <div class="content has-text-justified">
             <p>
-              We instruction-tune LLMs to generate a sequence of divergent CoTs before selecting the final answer in a single inference step at inference time. To this end, we devise a DCoT instruction template, where we introduce a set of commands (in brackets) to request the number of CoTs to generate:
-              </p>
+              We instruction-tune LLMs to generate a sequence of divergent CoTs before selecting the final answer in a
+              single inference step at inference time. To this end, we devise a DCoT instruction template, where we
+              introduce a set of commands (in brackets) to request the number of CoTs to generate:
+            </p>
             <!-- create centered text block -->
             <div class="content has-text-centered">
               <p>
@@ -267,17 +286,20 @@
                 <b>Response:</b>[Answer 1] CoT_1 [Answer 2] ... [Answer k] CoT_k [Final answer] answer
               </p>
             </div>
-          </div> 
+          </div>
 
           <h2 class="title is-4">Chain of Thought (CoT) Baseline</h2>
           <div class="content has-text-justified">
             <p>
-              Similarly, to establish a comparable baseline, we instruction-tune the same LLMs using the more traditional CoT format.
+              Similarly, to establish a comparable baseline, we instruction-tune the same LLMs using the more
+              traditional CoT format.
               To ensure a fair comparison, we use the same reasoning chains for training.
-              As shown in the figure above, each data point is composed of a question and a CoT, and a question may appear in more than one data point but with a different CoT. 
-              In this way, the model leverages CoT diversity at training time but, unlike in <b>DCoT</b>, it does not do so at inference time.
+              As shown in the figure above, each data point is composed of a question and a CoT, and a question may
+              appear in more than one data point but with a different CoT.
+              In this way, the model leverages CoT diversity at training time but, unlike in <b>DCoT</b>, it does not do
+              so at inference time.
             </p>
-          </div>           
+          </div>
 
         </div>
       </div>
@@ -289,7 +311,8 @@
           <h2 class="title is-3">CoT Data Generation</h2>
           <div class="content has-text-justified">
             <p>
-              We use GPT 3.5 turbo in the zero-shot setting with multiple triggers, such as <em>Let's think step by step</em> to generate CoTs.
+              We use GPT 3.5 turbo in the zero-shot setting with multiple triggers, such as <em>Let's think step by
+                step</em> to generate CoTs.
               For each question, we select four random CoT triggers.
               We limit the number of CoTs to four to ensure that the targets fit the context window of the LLMs.
             </p>
@@ -304,50 +327,53 @@
           <h2 class="title is-3">Results</h2>
           <div class="content has-text-justified">
             <p>
-              <table class="table table-striped table-hover">
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Phi 1.5 (1.3B)</th>
-                    <th>Phi 2 (2.7B)</th>
-                    <th>LLaMA 7B</th>
-                    <th>LLaMA 13B</th>
-                    <th>LLaMA 70B</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><b>DCoT</b></td>
-                    <td>49.39</td>
-                    <td>62.60</td>
-                    <td>60.80</td>
-                    <td>66.18</td>
-                    <td>68.63</td>
-                  </tr>
-                  <tr>
-                    <td>CoT</td>
-                    <td>47.20</td>
-                    <td>60.85</td>
-                    <td>58.97</td>
-                    <td>64.39</td>
-                    <td>66.96</td>
-                  </tr>
-                </tbody>
-              </table>
-              
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Method</th>
+                  <th>Phi 1.5 (1.3B)</th>
+                  <th>Phi 2 (2.7B)</th>
+                  <th>LLaMA 7B</th>
+                  <th>LLaMA 13B</th>
+                  <th>LLaMA 70B</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>DCoT</b></td>
+                  <td>49.39</td>
+                  <td>62.60</td>
+                  <td>60.80</td>
+                  <td>66.18</td>
+                  <td>68.63</td>
+                </tr>
+                <tr>
+                  <td>CoT</td>
+                  <td>47.20</td>
+                  <td>60.85</td>
+                  <td>58.97</td>
+                  <td>64.39</td>
+                  <td>66.96</td>
+                </tr>
+              </tbody>
+            </table>
+
             </p>
 
             <p>
               The table shows the average results of DCoT and CoT across 8 QA reasoning tasks.
-              We observe that DCoT achieves consistent and significant performance gains compared to CoT across all LLM families and sizes.
+              We observe that DCoT achieves consistent and significant performance gains compared to CoT across all LLM
+              families and sizes.
             </p>
 
             <p>The datasets are:
-              <table><thead>
+            <table>
+              <thead>
                 <tr>
                   <th>Dataset</th>
                   <th>Reasoning Type</th>
-                </tr></thead>
+                </tr>
+              </thead>
               <tbody>
                 <tr>
                   <td>ARC</td>
@@ -386,7 +412,7 @@
                   <td>Implicit multi-hop</td>
                 </tr>
               </tbody>
-              </table>
+            </table>
 
 
             </p>
@@ -400,92 +426,97 @@
           <h2 class="title is-3">Self-Correction (DCoT@2 - DCoT@1)</h2>
           <p>
             The table below shows the performance gain by genrating 2 CoTs (i.e, DCoT@2 - DCoT@1).
-            We observe performance gains by simply generating a second CoT in over 62% of cases (i.e., 25 out of 40 LLM x Dataset) and larger than 0.5 for more than half of the datasets for Phi 1.5, Phi2, LLaMA2 13B, and 70B.
+            We observe performance gains by simply generating a second CoT in over 62% of cases (i.e., 25 out of 40 LLM
+            x Dataset) and larger than 0.5 for more than half of the datasets for Phi 1.5, Phi2, LLaMA2 13B, and 70B.
           </p>
           <div class="content has-text-justified">
             <p>
-              <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead class="thead">
-                        <tr>
-                            <th>LLM</th>
-                            <th>ARC</th>
-                            <th>BGQA</th>
-                            <th>CQA</th>
-                            <th>GSM8K</th>
-                            <th>HQA</th>
-                            <th>LLC</th>
-                            <th>Quartz</th>
-                            <th>StrQA</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Phi 1.5</td>
-                            <td class="green-1">1.26</td>
-                            <td class="green-2">2.1</td>
-                            <td class="green-1">0.1</td>
-                            <td class="green-3">3</td>
-                            <td class="green-1">0.83</td>
-                            <td class="red-5">-14</td>
-                            <td class="green-3">3.38</td>
-                            <td class="green-1">1.11</td>
-                        </tr>
-                        <tr>
-                            <td>Phi 2</td>
-                            <td class="red-3">-3.56</td>
-                            <td class="red-2">-2.38</td>
-                            <td class="green-1">0.95</td>
-                            <td class="green-1">0.8</td>
-                            <td class="green-1">1.06</td>
-                            <td class="green-5">14</td>
-                            <td class="green-2">1.55</td>
-                            <td class="red-1">-0.85</td>
-                        </tr>
-                        <tr>
-                            <td>LLama2 7B</td>
-                            <td class="green-1">1.28</td>
-                            <td class="red-1">-0.99</td>
-                            <td class="red-1">-0.56</td>
-                            <td class="green-4">4</td>
-                            <td class="red-1">-0.01</td>
-                            <td class="green-4">6</td>
-                            <td class="red-1">-1.04</td>
-                            <td class="green-1">0.25</td>
-                        </tr>
-                        <tr>
-                            <td>LLama2 13B</td>
-                            <td class="green-4">4.15</td>
-                            <td class="green-1">0.91</td>
-                            <td class="red-1">-1.02</td>
-                            <td class="green-3">3</td>
-                            <td class="green-1">2.02</td>
-                            <td class="green-5">12</td>
-                            <td class="green-1">0.77</td>
-                            <td class="red-2">-2.03</td>
-                        </tr>
-                        <tr>
-                            <td>LLama2 70B</td>
-                            <td class="green-3">3.24</td>
-                            <td class="green-2">1.38</td>
-                            <td class="green-3">3.68</td>
-                            <td class="green-5">10</td>
-                            <td class="green-1">0</td>
-                            <td class="green-4">4</td>
-                            <td class="red-1">-1</td>
-                            <td class="red-4">-4.07</td>
-                        </tr>
-                    </tbody>
-                </table>
-              </div>
-                
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead class="thead">
+                  <tr>
+                    <th>LLM</th>
+                    <th>ARC</th>
+                    <th>BGQA</th>
+                    <th>CQA</th>
+                    <th>GSM8K</th>
+                    <th>HQA</th>
+                    <th>LLC</th>
+                    <th>Quartz</th>
+                    <th>StrQA</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Phi 1.5</td>
+                    <td class="green-1">1.26</td>
+                    <td class="green-2">2.1</td>
+                    <td class="green-1">0.1</td>
+                    <td class="green-3">3</td>
+                    <td class="green-1">0.83</td>
+                    <td class="red-5">-14</td>
+                    <td class="green-3">3.38</td>
+                    <td class="green-1">1.11</td>
+                  </tr>
+                  <tr>
+                    <td>Phi 2</td>
+                    <td class="red-3">-3.56</td>
+                    <td class="red-2">-2.38</td>
+                    <td class="green-1">0.95</td>
+                    <td class="green-1">0.8</td>
+                    <td class="green-1">1.06</td>
+                    <td class="green-5">14</td>
+                    <td class="green-2">1.55</td>
+                    <td class="red-1">-0.85</td>
+                  </tr>
+                  <tr>
+                    <td>LLama2 7B</td>
+                    <td class="green-1">1.28</td>
+                    <td class="red-1">-0.99</td>
+                    <td class="red-1">-0.56</td>
+                    <td class="green-4">4</td>
+                    <td class="red-1">-0.01</td>
+                    <td class="green-4">6</td>
+                    <td class="red-1">-1.04</td>
+                    <td class="green-1">0.25</td>
+                  </tr>
+                  <tr>
+                    <td>LLama2 13B</td>
+                    <td class="green-4">4.15</td>
+                    <td class="green-1">0.91</td>
+                    <td class="red-1">-1.02</td>
+                    <td class="green-3">3</td>
+                    <td class="green-1">2.02</td>
+                    <td class="green-5">12</td>
+                    <td class="green-1">0.77</td>
+                    <td class="red-2">-2.03</td>
+                  </tr>
+                  <tr>
+                    <td>LLama2 70B</td>
+                    <td class="green-3">3.24</td>
+                    <td class="green-2">1.38</td>
+                    <td class="green-3">3.68</td>
+                    <td class="green-5">10</td>
+                    <td class="green-1">0</td>
+                    <td class="green-4">4</td>
+                    <td class="red-1">-1</td>
+                    <td class="red-4">-4.07</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
             </p>
 
-            
+
             <p>
               These results indicate that DCoT tuning enables models to self-correct. <br>
-              It is important to note that our training data includes only reasoning chains that lead to the correct answer, never incorrect ones. This suggests that the ability to self-correct can be enabled in LLMs without explicitly training for it. <br>
-              We argue that this self-correct ability stem from the model's attempt to generate subsequent correct CoTs. In other words, the model may generate a first wrong CoT without knowing it, but it generates a second CoT that is correct and, therefore, as a side-effect, corrects the first one.
+              It is important to note that our training data includes only reasoning chains that lead to the correct
+              answer, never incorrect ones. This suggests that the ability to self-correct can be enabled in LLMs
+              without explicitly training for it. <br>
+              We argue that this self-correct ability stem from the model's attempt to generate subsequent correct CoTs.
+              In other words, the model may generate a first wrong CoT without knowing it, but it generates a second CoT
+              that is correct and, therefore, as a side-effect, corrects the first one.
             </p>
           </div>
         </div>
@@ -493,7 +524,7 @@
 
 
 
-     
+
     </div>
   </section>
 
@@ -529,11 +560,10 @@
         <div class="column is-8">
           <div class="content">
             <p>This website is based on <a href="https://nerfies.github.io">Nerfies</a>
-              and licensed under a <a rel="license"
-                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+              and licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
                 Commons Attribution-ShareAlike 4.0 International License</a>.
             </p>
-            
+
           </div>
         </div>
       </div>
